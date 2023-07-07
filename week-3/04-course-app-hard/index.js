@@ -1,12 +1,13 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const cors =  require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const app = express();
 
 
 app.use(express.json());
-
+app.use(cors());
 const SECRET = 'SECr3t';  
 
 // Define mongoose schemas
@@ -27,7 +28,7 @@ const adminSchema = new mongoose.Schema({
 const courseSchema = new mongoose.Schema({
   title: String,
   description: String,
-  price: Number,
+  price: String,
   imageLink: String,
   published: Boolean
 });
