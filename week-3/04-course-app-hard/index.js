@@ -90,6 +90,17 @@ app.post('/admin/signup', (req, res) => {
   });
 });
 
+app.get("/admin/me", authenticateJwt, async (req, res) => {
+    const admin = await Admin.findOne({ username: req.user.username });
+    if (!admin) {
+      res.status(403).json({msg: "Admin doesnt exist"})
+      return
+    }
+    res.json({
+        username: admin.username
+    })
+});
+
 
 app.post('/admin/login', async (req, res) => {
   const { username, password } = req.body;
@@ -114,7 +125,7 @@ app.post('/admin/login', async (req, res) => {
 });
 
 
-app.post('/admin/courses', authenticateJwt, async (req, res) => {
+app.post('/admin/createCourses', authenticateJwt, async (req, res) => {
   const course = new Course(req.body);
   await course.save();
   res.json({ message: 'Course created successfully', courseId: course.id });
